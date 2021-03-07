@@ -93,7 +93,7 @@ func Cleaner(ctx context.Context, intasks, outtasks chan Task) {
 				log.Printf("task %s has been time out and removed from queue \n", task.ID)
 				//Completed job should be removed from queue
 			} else if task.IsCompleted {
-				fmt.Printf("task %s has been Completed  and removed from queue \n", task.ID)
+				log.Printf("task %s has been Completed  and removed from queue \n", task.ID)
 				//All task which are not completed or timeout should be resubmitted to queue for processing
 			} else {
 				log.Printf("task %s has been re submitted in queue \n", task.ID)
