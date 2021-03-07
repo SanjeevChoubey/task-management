@@ -1,6 +1,6 @@
 This a very simple Task management system demonstration
 
-** Manual Installation**
+**Manual Installation**
 - Clone the Repository - git clone https://github.com/SanjeevChoubey/task-management.git
 - cd task-management
 -  go run main.go
