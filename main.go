@@ -5,7 +5,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/SanjeevChoubey/task-management/worker"
+	worker "github.com/sanjeevchoubey/task-management/worker"
 	log "github.com/sirupsen/logrus"
 )
 

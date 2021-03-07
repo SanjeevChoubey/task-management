@@ -3,6 +3,7 @@ package worker
 import (
 	"context"
 	"fmt"
+	"log"
 	"math/rand"
 	"strconv"
 	"sync"
@@ -53,7 +54,7 @@ func Executor(ctx context.Context, intasks, outtasks chan Task) {
 
 		case task, ok := <-intasks:
 			if !ok {
-				fmt.Println("Channel is closed")
+				log.Println("Channel is closed")
 				return
 			}
 			rand.Seed(time.Now().UnixNano())
@@ -62,10 +63,10 @@ func Executor(ctx context.Context, intasks, outtasks chan Task) {
 				time.Sleep(time.Millisecond)
 				task.Status = "completed"
 				task.IsCompleted = true
-				fmt.Printf("Email Sent successfully for task id %s and task has been %s \n", task.ID, task.Status)
+				log.Printf("Email Sent successfully for task id %s and task has been %s \n", task.ID, task.Status)
 			} else {
 				task.Status = "failed"
-				fmt.Printf("Email sending has failed for task id  %s \n", task.ID)
+				log.Printf("Email sending has failed for task id  %s \n", task.ID)
 			}
 			outtasks <- task
 
@@ -84,18 +85,18 @@ func Cleaner(ctx context.Context, intasks, outtasks chan Task) {
 
 		case task, ok := <-outtasks:
 			if !ok {
-				fmt.Println("Channel is closed")
+				log.Println("Channel is closed")
 				return
 			}
 			//timeout then remove from queue and log
 			if time.Now().Sub(task.CreationTime).Seconds() > WaitTime {
-				fmt.Printf("task %s has been time out and removed from queue \n", task.ID)
+				log.Printf("task %s has been time out and removed from queue \n", task.ID)
 				//Completed job should be removed from queue
 			} else if task.IsCompleted {
 				fmt.Printf("task %s has been Completed  and removed from queue \n", task.ID)
 				//All task which are not completed or timeout should be resubmitted to queue for processing
 			} else {
-				fmt.Printf("task %s has been re submitted in queue \n", task.ID)
+				log.Printf("task %s has been re submitted in queue \n", task.ID)
 				intasks <- task
 			}
 

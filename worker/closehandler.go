@@ -1,7 +1,7 @@
 package worker
 
 import (
-	"fmt"
+	"log"
 	"os"
 	"os/signal"
 	"syscall"
@@ -14,7 +14,7 @@ func SetupCloseHandler() {
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 	go func() {
 		<-c
-		fmt.Println("Intrupt from OS,Closing the Task management System, Thank you for using this application")
+		log.Println("Intrupt from OS,Closing the Task management System, Thank you for using this application")
 		os.Exit(0)
 	}()
 }
